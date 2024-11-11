@@ -1,0 +1,58 @@
+// modulo counter using jk ff
+// first we have to design a jk ff
+
+//design code for jk ff
+
+module JKFF(q, qbar, j, k, clk);
+output q, qbar;
+input j, k, clk;
+reg q, qbar;
+initial 
+begin 
+    q = 1'b0; qbar = 1'b1; 
+end
+always @ (posedge clk)
+ begin
+   case({j,k})
+     {1'b0,1'b0}:
+        begin q = q; qbar = qbar; end
+     {1'b0,1'b1}:
+        begin q = 1'b0; qbar = 1'b1; end
+     {1'b1,1'b0}:
+        begin q = 1'b1; qbar = 1'b0; end
+     {1'b1,1'b1}:
+        begin q = ~q; qbar = ~qbar; end
+   endcase
+ end
+endmodule
+
+
+
+
+//design code for modulo counter
+
+module mod6up(qa,qb,qc,clk);
+    output qa,qb,qc;
+    input clk;
+    wire j1,k1,j2,k2,j3,k3;
+    assign j1 = 1'b1;
+    assign k1 = 1'b1;
+    assign j2 = ~qc & qa;
+    assign k2 = qa;
+    assign j3 = qb & qa;
+    assign k3 = qa;
+    JKFF jk1(qa, qabar, j1, k1, clk);
+    JKFF jk2(qb, qbbar, j2, k2, clk);
+    JKFF jk3(qc, qcbar, j3, k3, clk);
+endmodule
+
+
+
+//testbench code for modulo counter
+
+module test_mod6();
+    reg clk = 0;
+    wire qa, qb, qc;
+    mod6up counter1(qa, qb, qc, clk); 
+    always #5 clk = ~clk;
+endmodule

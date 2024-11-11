@@ -1,0 +1,50 @@
+// 8 to 1 line mux
+
+//design code for 8X1 mux
+
+module mux8_1(y,s0,s1,s2,i0,i1,i2,i3,i4,i5,i6,i7);
+input s0,s1,s2,i0,i1,i2,i3,i4,i5,i6,i7;
+otput y;
+
+assign y =(~s2 & ~s1 & ~s0 & i0)|(~s2 & ~s1 & s0 & i1)|(~s2 & s1 & ~s0 & i2)|(~s2 & ~s1 & ~s0 & i3)|(s2 & ~s1 & ~s0 & i4)|(s2 & ~s1 & s0 & i5)|(s2 & s1 & ~s0 & i6)|(s2 & s1 & s0 & i7);
+
+endmodule
+
+
+// testbench code for 8X1mux
+
+module t_mux8_1();
+reg s0,s1,s2,i0,i1,i2,i3,i4,i5,i6,i7;
+wire y;
+
+mux8_1 m1(y,s0,s1,s2,i0,i1,i2,i3,i4,i5,i6,i7);
+
+initial
+begin
+
+s2=0;s1=0;s0=0;i0=0;i1=0;i2=0;i3=0;i4=0;i5=0;i6=0;i7=0; #10
+s2=0;s1=0;s0=0;i0=1;i1=0;i2=0;i3=0;i4=0;i5=0;i6=0;i7=0; #10
+
+s2=0;s1=0;s0=1;i0=0;i1=0;i2=0;i3=0;i4=0;i5=0;i6=0;i7=0; #10
+s2=0;s1=0;s0=1;i0=0;i1=1;i2=0;i3=0;i4=0;i5=0;i6=0;i7=0; #10
+
+s2=0;s1=1;s0=0;i0=0;i1=0;i2=0;i3=0;i4=0;i5=0;i6=0;i7=0; #10
+s2=0;s1=1;s0=0;i0=0;i1=0;i2=1;i3=0;i4=0;i5=0;i6=0;i7=0; #10
+
+s2=1;s1=0;s0=1;i0=0;i1=0;i2=0;i3=0;i4=0;i5=0;i6=0;i7=0; #10
+s2=1;s1=0;s0=1;i0=0;i1=0;i2=0;i3=0;i4=0;i5=1;i6=0;i7=0; #10
+
+s2=1;s1=1;s0=1;i0=0;i1=0;i2=0;i3=0;i4=0;i5=0;i6=0;i7=0; #10
+s2=1;s1=1;s0=1;i0=0;i1=0;i2=0;i3=0;i4=0;i5=0;i6=0;i7=1; #10
+
+$finish
+end
+endmodule
+
+
+// for 4X1mux there will be 2 select line -->s0,s1;  
+//therefore ---->input(s0,s1,i0,i1,i2,i3);  and otput(y);
+
+
+// for 2X1mux there will be 1 select line -->s0;  
+//therefore ---->input(s0,i0,i1);  and otput(y);

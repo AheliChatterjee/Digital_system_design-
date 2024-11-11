@@ -1,0 +1,92 @@
+// design code for jk ff
+
+module jk_ff(input reset, input clk, input j, input k, output reg q, output qnot );
+assign qnot = ~q;
+always @(posedge clk)
+begin
+if(reset) q=1'b0;
+else
+    case({j,k})
+        2'b00:q=q; //no change
+        2'b01:q=1'b0; // 0 Reset
+        2'b10:q=1'b1; //1  set
+        2'b11:q=~q; // Toggle
+    endcase
+end
+endmodule
+
+
+
+//testbench for jk ff
+
+module test();
+reg clk=0;
+reg j=0;
+reg k=0;
+reg reset;
+wire q, qnot;
+jk_ff jkut(reset, clk,j,k,q,qnot);
+initial
+begin
+reset = 1'b1;
+#10 reset = 1'b0;j=1'b0;k=1'b1;
+#20 reset = 1'b0;j=1'b0;k=1'b0;
+#20 reset = 1'b0;j=1'b1;k=1'b0;
+#20 reset = 1'b0;j=1'b1;k=1'b1;
+#40 $finish;
+end
+always #5 clk=~clk;
+endmodule
+
+
+
+//design code for d ff
+
+module D(q,qbar,d,clk);
+output q,qbar;
+input d,clk;
+reg q,qbar;
+initial begin q=1'b0; qbar=1'b1; end
+always @ (negedge clk)
+begin
+case({d})
+{1'b0}:begin q=1'b0; qbar=1'b1; end
+{1'b1}:begin q=1'b1; qbar=1'b0; end
+
+endcase
+end
+endmodule
+
+
+
+
+
+//design code for jk using d ff
+
+module jk_u_d(q,qbar,j,k,clk);
+input j,k,clk;
+output q,qbar;
+wire d;
+assign d=(j&~q)|(~k&q);
+D dff(q,qbar,d,clk);  
+endmodule
+
+
+//testbench for jk using d ff
+
+module JK_D_tb();
+reg clk=0;
+reg j=0;
+reg k=0;
+wire q, qbar;
+jk_u_d jut(q,qbar,j,k,clk);
+initial
+begin
+#10 j=1'b0;k=1'b1;
+#20 j=1'b0;k=1'b0;
+#20 j=1'b1;k=1'b0;
+#20 j=1'b1;k=1'b1;
+#40 $finish;
+end
+always #5 clk=~clk;
+endmodule

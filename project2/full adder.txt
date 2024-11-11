@@ -1,0 +1,58 @@
+// Full adder using two half adder
+
+//design code for half adder
+
+module HA(s,c,a,b);
+input a,b;
+outputs,c;
+xor x1(s,a,b);
+and a1(c,a,b);
+
+endmodule
+
+
+//design code for full adder (gate level)
+
+module FA(sum, cout,a,b,cin);
+wire w1,w2,w3;
+input a, b, cin;
+output sum,cout;
+
+HA h1(w1,w2,a,b);
+HA h2(sum,w3,w1,cin);
+or o1(cout,w2,w3);
+
+endmodule
+
+
+
+// full adder in data flow modelling
+
+module full_adder(sum,cout,a,b,cin);
+input a, b, cin;
+output sum, cout;
+assign sum = a^b^cin;
+assign cout = ((a&b)|((a^b)&cin));
+
+endmodule
+
+
+//testbench code for full adder
+
+module t_FA();
+reg a, b, cin;
+wire sum, cout;
+FA fa1(sum, cout,a,b,cin);
+initial 
+begin
+a=0;b=0;c=0; #10
+a=0;b=0;c=1; #10
+a=0;b=1;c=0; #10
+a=0;b=1;c=1; #10
+a=1;b=0;c=0; #10
+a=1;b=0;c=1; #10
+a=1;b=1;c=0; #10
+a=1;b=1;c=1; #10
+$finish
+end
+endmodule

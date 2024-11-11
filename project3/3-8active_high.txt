@@ -1,0 +1,45 @@
+// 3 line to 8 line active high decoder
+
+//design code for active high decoder
+
+module decoder(D0,D1,D2,D3,D4,D5,D6,D7, A, B, C);
+input A,B,C;
+output D0,D1,D2,D3,D4,D5,D6,D7;
+
+assign D0 = ~A & ~B & ~C;
+assign D1 = ~A & ~B &  C;
+assign D2 = ~A &  B & ~C;
+assign D3 = ~A &  B &  C;
+assign D4 =  A & ~B & ~C;
+assign D5 =  A & ~B &  C;
+assign D6 =  A &  B & ~C;
+assign D7 =  A &  B &  C;
+
+endmodule
+
+
+//testbench code for decoder
+
+module t_decoder();
+reg A,B,C;
+wire D0,D1,D2,D3,D4,D5,D6,D7;
+
+decoder d1(D0,D1,D2,D3,D4,D5,D6,D7,A,B,C);
+
+initial 
+begin
+a=0;b=0;c=0; #10
+a=0;b=0;c=1; #10
+a=0;b=1;c=0; #10
+a=0;b=1;c=1; #10
+a=1;b=0;c=0; #10
+a=1;b=0;c=1; #10
+a=1;b=1;c=0; #10
+a=1;b=1;c=1; #10
+$finish
+end
+endmodule
+
+
+
+// in the same manner we can do the 2 line to 4 line active high decoder ---->iputs (a,b) ---->outputs(D0,D1,D2,D3);
