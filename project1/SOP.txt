@@ -1,0 +1,20 @@
+//SOP implementation of boolen function F(A,B,C)= sum(1,3,6,7) using NAND gates
+
+module exp_1(output f, input a, input b, input c);
+wire w1,w2,w3;
+nand g1(w1,a,a);
+nand g2(w2,a,b);
+nand g3(w3,w1,c);
+nand g4(f,w2,w3);
+endmodule
+
+
+//POS implementation of Boolean functionF(A,B,C)= pi(0,2,4,5) using NOR gates
+
+module exp_2(output f, input a, input b, input c);
+wire w1,w2,w3;
+nor g1(w1,a,a);
+nor g2(w3,a,c);
+nor g3(w2,w1,b);
+nor g4(f,w2,w3);
+endmodule
