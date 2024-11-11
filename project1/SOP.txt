@@ -1,5 +1,10 @@
 //SOP implementation of boolen function F(A,B,C)= sum(1,3,6,7) using NAND gates
 
+
+//design code
+
+`timescale 1ns / 1ps
+
 module exp_1(output f, input a, input b, input c);
 wire w1,w2,w3;
 nand g1(w1,a,a);
@@ -8,8 +13,42 @@ nand g3(w3,w1,c);
 nand g4(f,w2,w3);
 endmodule
 
+//test bench code
+
+`timescale 1ns / 1ps
+
+module texp_1();
+reg a,b,c;
+wire f;
+exp_1 uut(f,a,b,c);
+initial
+begin
+a=0;b=0;c=0;
+#10
+a=0;b=0;c=1;
+#10
+a=0;b=1;c=0;
+#10
+a=0;b=1;c=1;
+#10
+a=1;b=0;c=0;
+#10
+a=1;b=0;c=1;
+#10
+a=1;b=1;c=0;
+#10
+a=1;b=1;c=1;
+#10
+$finish;
+end
+endmodule
+
+
 
 //POS implementation of Boolean functionF(A,B,C)= pi(0,2,4,5) using NOR gates
+//design code
+
+`timescale 1ns / 1ps
 
 module exp_2(output f, input a, input b, input c);
 wire w1,w2,w3;
@@ -17,4 +56,34 @@ nor g1(w1,a,a);
 nor g2(w3,a,c);
 nor g3(w2,w1,b);
 nor g4(f,w2,w3);
+endmodule
+
+//testbench code
+
+`timescale 1ns / 1ps
+
+module texp_1();
+reg a,b,c;
+wire f;
+exp_1 uut(f,a,b,c);
+initial
+begin
+a=0;b=0;c=0;
+#10
+a=0;b=0;c=1;
+#10
+a=0;b=1;c=0;
+#10
+a=0;b=1;c=1;
+#10
+a=1;b=0;c=0;
+#10
+a=1;b=0;c=1;
+#10
+a=1;b=1;c=0;
+#10
+a=1;b=1;c=1;
+#10
+$finish;
+end
 endmodule
